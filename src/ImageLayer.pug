@@ -1,0 +1,17 @@
+script.
+    import { createEventDispatcher } from "svelte"
+
+    export let idx
+    export let imageUrl
+    export let isSelected
+       
+    const publish = createEventDispatcher()
+
+    const onSelect = () => publish("setSelected", idx)
+
+    let blah = "BLAH"
+
+div.image-layer
+    p image layer {idx} {imageUrl} {isSelected}
+
+    button("on:click"={onSelect}) SELECT
