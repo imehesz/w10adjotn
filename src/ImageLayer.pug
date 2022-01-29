@@ -4,6 +4,7 @@ script.
     export let idx
     export let imageUrl
     export let isSelected
+    export let weight
        
     const publish = createEventDispatcher()
 
@@ -12,6 +13,6 @@ script.
     let blah = "BLAH"
 
 div.image-layer
-    p image layer {idx} {imageUrl} {isSelected}
+    p {idx} image layer {weight} {imageUrl} {isSelected}
 
     button("on:click"={onSelect}) SELECT

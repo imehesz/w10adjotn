@@ -6,26 +6,52 @@ script.
         return {
             imageUrl: "",
             idx: idx,
-            isSelected: false
+            isSelected: false,
+            weight: 0
         }
     }
 
     let layers = []
 
     let selectedLayerIdx = -1
+    let selectedLayer = {}
 
     const onSelectLayer = (e) => {
         console.log("callback ran", e)
         // reset all layer to false and select the correct layer
+        selectedLayer = null
         for(let i=0; i<layers.length; i++) {
             let tmpLayer = layers[i]
 
             tmpLayer.isSelected = false
-            if(tmpLayer.idx == e.detail) tmpLayer.isSelected = true
+            if(tmpLayer.idx == e.detail) {
+                tmpLayer.isSelected = true
+                selectedLayer = tmpLayer
+                selectedLayer = selectedLayer
+            }
         }
 
         layers = layers
+    }
 
+    const onUpdateLayer = (e) => {
+        selectedLayer.idx = e.detail.idx
+        selectedLayer.weight = e.detail.weight
+        selectedLayer.imageUrl = e.detail.imageUrl
+
+        console.log(selectedLayer)
+
+
+        for(let i=0; i<layers.length; i++) {
+            let tmpLayer = layers[i]
+
+            if(tmpLayer.idx == selectedLayer.idx) {
+                tmpLayer.imageUrl = selectedLayer.imageUrl
+                tmpLayer.weight = selectedLayer.weight
+            }
+        }
+
+        layers = layers
     }
 
     const addLayer = () => {
@@ -39,13 +65,17 @@ script.
 main
     button("on:click"={addLayer}) Add Layer
 
-    Settings
+    Settings(
+      "selectedLayer"={selectedLayer}
+      "on:updateLayer"={onUpdateLayer}
+    )
     
     {#each layers as layer}
       ImageLayer(
           idx={layer.idx},
           isSelected={layer.isSelected},
           imageUrl={layer.imageUrl},
+          weight={layer.weight},
           "on:setSelected"={onSelectLayer}
       )
       hr

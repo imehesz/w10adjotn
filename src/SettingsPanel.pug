@@ -1,11 +1,32 @@
 script.
-    let imgUrl = ""
+    import { createEventDispatcher } from "svelte"
+
+    export let selectedLayer = {
+        imageUrl: "",
+        idx: -1,
+        weight: 0
+    }
+
+    const publish = createEventDispatcher()
+
+    const onUpdate = () => publish("updateLayer", selectedLayer)
+
+    const updateUrl = (el) => selectedLayer.imageUrl=el.target.value
+    const updateWeight = (el) => selectedLayer.weight=el.target.value
 
 div.settings-panel
-    h1 Settings
+    h1 Settings for {selectedLayer.idx}
 
-    input(type="text", placeholder="Image URL")
+    input(
+      type="text", 
+      placeholder="Image URL", 
+      value={selectedLayer.imageUrl}
+      "on:keyup"={updateUrl})
 
-    button /\
+    input(
+      type="number",
+      value={selectedLayer.weight},
+      placeholder="weight"
+      "on:keyup"={updateWeight})
 
-    button \/
+    button("on:click"={onUpdate}) Update
