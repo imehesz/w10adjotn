@@ -7,7 +7,11 @@ script.
             imageUrl: "",
             idx: idx,
             isSelected: false,
-            weight: 0
+            weight: 0,
+            posX: 0,
+            posY: 0,
+            width: 100, 
+            height: 100
         }
     }
 
@@ -38,6 +42,10 @@ script.
         selectedLayer.idx = e.detail.idx
         selectedLayer.weight = e.detail.weight
         selectedLayer.imageUrl = e.detail.imageUrl
+        selectedLayer.width = e.detail.width
+        selectedLayer.height = e.detail.height
+        selectedLayer.posX = e.detail.posX
+        selectedLayer.posY = e.detail.posY
 
         console.log(selectedLayer)
 
@@ -48,6 +56,10 @@ script.
             if(tmpLayer.idx == selectedLayer.idx) {
                 tmpLayer.imageUrl = selectedLayer.imageUrl
                 tmpLayer.weight = selectedLayer.weight
+                tmpLayer.width = selectedLayer.width
+                tmpLayer.height = selectedLayer.height
+                tmpLayer.posX = selectedLayer.posX
+                tmpLayer.posY = selectedLayer.posY
             }
         }
 
@@ -70,15 +82,19 @@ main
       "on:updateLayer"={onUpdateLayer}
     )
     
-    {#each layers as layer}
-      ImageLayer(
-          idx={layer.idx},
-          isSelected={layer.isSelected},
-          imageUrl={layer.imageUrl},
-          weight={layer.weight},
-          "on:setSelected"={onSelectLayer}
-      )
-      hr
+    div.canvas
+        {#each layers as layer}
+          ImageLayer(
+            idx={layer.idx},
+            isSelected={layer.isSelected},
+            imageUrl={layer.imageUrl},
+            weight={layer.weight},
+            height={layer.height},
+            width={layer.width},
+            posX={layer.posX},
+            posY={layer.posY},
+            "on:setSelected"={onSelectLayer}
+        )
 
 style.
     main {
@@ -111,6 +127,10 @@ style.
 
     button {
         margin-left: 10px;
+    }
+
+    .canvas {
+        position: relative;
     }
 
     @media (min-width: 640px) {
